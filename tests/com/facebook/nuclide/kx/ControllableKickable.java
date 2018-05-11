@@ -95,6 +95,11 @@ public class ControllableKickable<T> extends KickableImpl<T, ControllableKickabl
     scheduleMutateState(state -> state.setError(new Exception("Test error")));
   }
 
+  public static void race(Runnable task) {
+    eventLoop.scheduleLoPri(task);
+    eventLoop.flush();
+  }
+
   public int getTimesSubscribedByDownstream() {
     return readState(state -> state.timesSubscribedByDownstream);
   }

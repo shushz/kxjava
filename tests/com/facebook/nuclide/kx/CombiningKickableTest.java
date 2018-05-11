@@ -185,11 +185,11 @@ public class CombiningKickableTest {
 
     inspector.assertInvalidated();
 
-    // TODO: Ideally we'd like to suspend the graph processing thread here to guarantee that
-    // the following error and completion always race and hence both are being handled in the
-    // same handleStateUpdate call.
-    upstream1.error();
-    upstream2.complete();
+    ControllableKickable.race(
+        () -> {
+          upstream1.complete();
+          upstream2.error();
+        });
 
     inspector.assertErred();
   }
