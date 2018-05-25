@@ -69,7 +69,7 @@ import java.util.logging.Logger;
  * </pre>
  */
 public class Log {
-  private static final Logger globalLogger = Logger.getGlobal();
+  private static Logger configuredLogger = null;
 
   private static final NullLog nullLog = new NullLog();
 
@@ -93,7 +93,17 @@ public class Log {
 
   /** Sets the minimal logging level to be written into a log file */
   public static void setLogLevel(Level level) {
-    globalLogger.setLevel(level);
+    Logger logger = configuredLogger;
+    if (logger != null) {
+      logger.setLevel(level);
+    }
+  }
+
+  /**
+   * Sets the underlying logger to use
+   */
+  public static void configLogger(Logger logger) {
+    configuredLogger = logger;
   }
 
   /**
@@ -136,14 +146,15 @@ public class Log {
       Optional<Throwable> thrown,
       Optional<String> sourceMethodName,
       Optional<Object[]> params) {
-    if (globalLogger.isLoggable(level)) {
+    Logger logger = configuredLogger;
+    if (logger != null && logger.isLoggable(level)) {
       LogRecord record = new LogRecord(level, messageSupplier.get());
       record.setSourceClassName(sourceClassName);
       thrown.ifPresent(record::setThrown);
       sourceMethodName.ifPresent(record::setSourceMethodName);
       params.ifPresent(record::setParameters);
 
-      globalLogger.log(record);
+      logger.log(record);
     }
   }
 

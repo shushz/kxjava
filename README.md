@@ -20,9 +20,3 @@ mvn package
 ## License
 
 kxjava is MIT-licensed.
-
-# Logging/TODO
-
-The Kickable library comes with its wrapper for `java.util.logging` classes. It logs on the global logger.
-
-TODO: This should probably be split out.
