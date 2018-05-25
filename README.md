@@ -17,13 +17,9 @@ The (OSS version of the) project is built with Maven:
 mvn package
 ```
 
-# Contributing
-
-See the CONTRIBUTING.md file for how to help out.
-
 ## License
 
-nuclide-kickable is MIT-licensed.
+kxjava is MIT-licensed.
 
 # Logging/TODO
 
